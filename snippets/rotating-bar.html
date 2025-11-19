@@ -1,0 +1,69 @@
+<div id="profit-times-rotating-bar" aria-live="polite"></div>
+<style>
+#profit-times-rotating-bar { background:#f8f9fa; border-bottom:1px solid #e6e6e6; padding:8px 16px; font-size:0.95rem; display:flex; align-items:center; gap:12px; }
+#profit-times-rotating-bar .label { font-weight:600; color:#333; margin-right:6px; }
+#profit-times-rotating-bar a.rt-link { color:#0d6efd; text-decoration:none; transition:opacity .4s; opacity:1; }
+#profit-times-rotating-bar a.rt-link.fade { opacity:0; }
+#profit-times-rotating-bar { box-sizing: border-box; }
+@media (max-width:600px) { #profit-times-rotating-bar { font-size:0.9rem; padding:8px 10px; } }
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  const nav = document.querySelector('nav') || document.querySelector('.quarto-nav') || document.querySelector('.navbar');
+  const container = document.createElement('div');
+  container.id = 'profit-times-rotating-bar-container';
+  container.innerHTML = '<div id="profit-times-rotating-bar"><span class="label">Latest:</span><a class="rt-link" href="#" target="_self" rel="noopener"></a></div>';
+
+  if (nav && nav.parentNode) {
+    nav.parentNode.insertBefore(container, nav.nextSibling);
+  } else {
+    document.body.insertBefore(container, document.body.firstChild);
+  }
+
+  const bar = document.getElementById('profit-times-rotating-bar');
+  const link = bar.querySelector('.rt-link');
+
+  let items = [];
+  let idx = 0;
+  let cycleTimer = null;
+
+  function show(i){
+    if (!items.length) { container.style.display='none'; return; }
+    const item = items[i % items.length];
+    // remove fade to show instantly
+    link.classList.remove('fade');
+    // small delay to ensure transition when setting text
+    setTimeout(()=>{
+      link.textContent = item.title || '';
+      link.href = item.href || '#';
+    }, 20);
+    // schedule fade-out before next change
+    clearTimeout(cycleTimer);
+    cycleTimer = setTimeout(()=>{ link.classList.add('fade'); }, 2500);
+  }
+
+  function startCycle(){
+    if (!items.length) return;
+    show(0);
+    idx = 0;
+    setInterval(()=>{ idx = (idx+1) % items.length; show(idx); }, 3000);
+  }
+
+  // Fetch the Quarto-generated search.json which includes titles and hrefs
+  fetch('search.json').then(r=>{
+    if (!r.ok) throw new Error('no search.json');
+    return r.json();
+  }).then(data=>{
+    // Quarto search.json is typically an array of items with `title` and `href`.
+    if (Array.isArray(data)){
+      items = data.filter(x=>x.title && x.href).map(x=>({title:x.title, href:x.href}));
+    } else if (data.items && Array.isArray(data.items)){
+      items = data.items.map(x=>({title:x.title||x.name, href:x.href||x.url}));
+    }
+    if (items.length) startCycle(); else container.style.display='none';
+  }).catch(()=>{
+    // If fetch fails, hide the bar silently
+    container.style.display='none';
+  });
+});
+</script>

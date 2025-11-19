@@ -1,7 +1,45 @@
----
-title: "my-website"
+<!-- Top Ticker Bar -->
+<!-- <div class="top-ticker">
+  <span>💰 Standing Rock: A Pipeline of Profits 💰 | 💵 Mayor Turns City Hall into Luxury Hotel 💵 | 🏫 School Sells Naming Rights to Cafeteria 🏫 | 🪙 Corporation Discovers Pure Capitalism 🪙 | 💸 Fundraising Fundraiser Fundraiser 💸</span>
+</div> -->
+
+# Welcome to Profit Times
+Your go-to source for breaking satire where money rules the world.
+
 ---
 
-This is a Quarto website.
+## Featured Article
+<div class="article-box featured">
+[Standing Rock: A Pipeline of Profits](articles/standing-rock.qmd)  
+*Because pipelines get better protection than human rights.*
+</div>
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+---
+
+## Other Headlines
+<div class="article-box">
+[Mayor Turns City Hall into Luxury Hotel](articles/placeholder1.qmd)  
+*Because renting out government offices is peak efficiency.*
+</div>
+
+<div class="article-box">
+[Local School Sells Naming Rights to Cafeteria](articles/placeholder2.qmd)  
+*Now every lunch comes with a brand sponsorship.*
+</div>
+
+<div class="article-box">
+[Corporation Discovers New Mineral: Pure Capitalism](articles/placeholder3.qmd)  
+*Turns out profits can literally be mined.*
+</div>
+
+<div class="article-box">
+[Man Starts Fundraising Campaign to Fund Fundraising Campaigns](articles/placeholder4.qmd)  
+*Meta-profit inception at its finest.*
+</div>
+
+---
+
+<!-- ## Profit Ticker
+<div class="ticker">
+💰 Bitcoin Up 10% Today! 💰 | 💵 Billionaire Buys Private Island for Office Retreat 💵 | 💸 Local Bank Introduces Fees for Breathing
+</div> -->

@@ -4,5 +4,20 @@
   },
   "index.qmd": {
     "index.html": "fe79db26"
+  },
+  "articles/standing-rock.qmd": {
+    "standing-rock.html": "9cff8783"
+  },
+  "articles/placeholder1.qmd": {
+    "placeholder1.html": "e8f1abc8"
+  },
+  "articles/placeholder2.qmd": {
+    "placeholder2.html": "14fbba17"
+  },
+  "articles/placeholder3.qmd": {
+    "placeholder3.html": "e3036ec9"
+  },
+  "articles/placeholder4.qmd": {
+    "placeholder4.html": "b7a69497"
   }
 }
