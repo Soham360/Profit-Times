@@ -4,9 +4,26 @@ title: "About"
 
 # About the Author
 
-Hi, I’m Soham, a student satirist trying to make the world laugh… and think.  
+Filler
 
-This site highlights moments where profit seems more important than people, sometimes in ways so absurd they could only be real if they weren’t.  
+<img src="images/SohamHeadshotMain-removebg-preview.png" alt="Soham Kamat" class="about-img" />
 
-All articles are meant to entertain and provoke thought, with a touch of humor.
+<style>
+.about-img {
+  /* float: right;           float image to the right */
+  width: 150px;           /* smaller size */
+  height: auto;
+  margin-left: 20px;      /* space between text and image */
+  margin-bottom: 10px;    /* space below image */
+  border-radius: 8px;     /* rounded corners */
+}
 
+@media (max-width: 600px) {
+  .about-img {
+    float: none;          /* stack image above/below text on mobile */
+    display: block;
+    margin: 0 auto 20px auto;
+    width: 80%;           /* responsive width */
+  }
+}
+</style>

@@ -1,29 +1,37 @@
-/* General body */
+/* -----------------------------
+   General Body
+----------------------------- */
 body {
   font-family: 'Arial', sans-serif;
-  background-color: #f4f4f9;
-  color: #222;
+  background-color: #f4f4f9 !important;
+  color: #222 !important;
   line-height: 1.6;
   padding: 0 20px;
 }
 
-/* Header styling */
+/* -----------------------------
+   Headers
+----------------------------- */
 h1, h2 {
-  color: #b22222; /* Dark red for headers */
+  color: #b22222 !important; /* Dark red for headers */
   text-align: center;
 }
 
-/* Navbar links */
-.navbar a {
+/* -----------------------------
+   Navbar Links
+----------------------------- */
+nav a, .quarto-nav a, .navbar a {
   color: #222 !important;
-  font-weight: bold;
+  font-weight: bold !important;
 }
 
-.navbar a:hover {
+nav a:hover, .quarto-nav a:hover, .navbar a:hover {
   color: #b22222 !important;
 }
 
-/* Boxes for articles */
+/* -----------------------------
+   Article Boxes
+----------------------------- */
 .article-box {
   background-color: #fff;
   border-left: 5px solid #b22222;
@@ -48,13 +56,15 @@ h1, h2 {
   text-decoration: underline;
 }
 
-/* Featured article box */
+/* Featured Article Box */
 .featured {
   border-left: 8px solid #ff4500; /* Bright orange */
   background-color: #fff3e6;
 }
 
-/* Profit ticker */
+/* -----------------------------
+   Profit Ticker
+----------------------------- */
 .ticker {
   background-color: #222;
   color: #fff;
@@ -64,15 +74,6 @@ h1, h2 {
   font-weight: bold;
   border-radius: 5px;
   font-family: 'Courier New', monospace;
-}
-
-/* Footer */
-footer {
-  background-color: #222;
-  color: #fff;
-  padding: 10px 0;
-  margin-top: 40px;
-  text-align: center;
 }
 
 /* Top ticker bar */
@@ -95,4 +96,32 @@ footer {
 @keyframes ticker {
   0% { transform: translateX(0); }
   100% { transform: translateX(-100%); }
+}
+
+/* -----------------------------
+   Rotating Ticker (#profit-times-ticker)
+----------------------------- */
+#profit-times-ticker-container {
+  background: #f8f9fa;
+  border-bottom: 1px solid #e6e6e6;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+  padding: 8px 0;
+}
+
+#profit-times-ticker-track {
+  display: inline-flex;
+  gap: 40px;
+  white-space: nowrap;
+  align-items: center;
+  will-change: transform;
+}
+
+/* Optional keyframes (injected dynamically by JS) */
+@keyframes scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }

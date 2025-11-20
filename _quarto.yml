@@ -5,8 +5,6 @@ website:
   title: "Profit Times"
   navbar:
     left:
-      - text: Profit Times
-        href: index.qmd
       - text: Latest Headlines
         href: articles/standing-rock.qmd
       - text: About
@@ -16,8 +14,10 @@ format:
   html:
     theme: cosmo
     toc: true
-    css: styles.css
-    include-after-body: snippets/rotating-bar.html
+    css: /styles.css?v=2
+    include-after-body: 
+      - snippets/rotating-bar.html
+      - snippets/navbar-stocks.html
     footer: |
       <p style="text-align:center; font-size:0.9em; color:#555;">
         © 2025 Profit Times. All satire intended.

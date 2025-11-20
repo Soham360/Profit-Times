@@ -4,14 +4,12 @@
 </div> -->
 
 # Welcome to Profit Times
-Your go-to source for breaking satire where money rules the world.
-
----
+<p style="text-align:center;">Your go-to source for breaking news where money rules the world.</p>
 
 ## Featured Article
 <div class="article-box featured">
 [Standing Rock: A Pipeline of Profits](articles/standing-rock.qmd)  
-*Because pipelines get better protection than human rights.*
+*Because pipelines deserve better protection.*
 </div>
 
 ---
@@ -38,8 +36,3 @@ Your go-to source for breaking satire where money rules the world.
 </div>
 
 ---
-
-<!-- ## Profit Ticker
-<div class="ticker">
-💰 Bitcoin Up 10% Today! 💰 | 💵 Billionaire Buys Private Island for Office Retreat 💵 | 💸 Local Bank Introduces Fees for Breathing
-</div> -->

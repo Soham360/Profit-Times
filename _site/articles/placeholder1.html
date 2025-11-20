@@ -70,7 +70,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../styles.css?v=2">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -90,10 +90,6 @@ ul.task-list li input[type="checkbox"] {
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="../index.html"> 
-<span class="menu-text">Profit Times</span></a>
-  </li>  
   <li class="nav-item">
     <a class="nav-link" href="../articles/standing-rock.html"> 
 <span class="menu-text">Latest Headlines</span></a>
@@ -138,139 +134,259 @@ ul.task-list li input[type="checkbox"] {
 </section>
 
 </main> <!-- /main -->
-<div id="profit-times-rotating-bar" aria-live="polite"></div>
+<div id="profit-times-ticker-container"></div>
+
+
 
 <style>
 
-#profit-times-rotating-bar { background:#f8f9fa; border-bottom:1px solid #e6e6e6; padding:8px 16px; font-size:0.95rem; display:flex; align-items:center; gap:12px; }
+/* Bar wrapper */
 
-#profit-times-rotating-bar .label { font-weight:600; color:#333; margin-right:6px; }
+#profit-times-ticker-container {
 
-#profit-times-rotating-bar a.rt-link { color:#0d6efd; text-decoration:none; transition:opacity .4s; opacity:1; }
+  background: #f8f9fa;
 
-#profit-times-rotating-bar a.rt-link.fade { opacity:0; }
+  border-bottom: 1px solid #e6e6e6;
 
-#profit-times-rotating-bar { box-sizing: border-box; }
+  overflow: hidden;
 
-@media (max-width:600px) { #profit-times-rotating-bar { font-size:0.9rem; padding:8px 10px; } }
+  white-space: nowrap;
+
+  width: 100%;
+
+  box-sizing: border-box;
+
+  position: relative;
+
+  padding: 8px 0;
+
+  z-index: 1000;
+
+}
+
+
+
+/* Scrolling content container */
+
+#profit-times-ticker-track {
+
+  display: inline-flex;
+
+  white-space: nowrap;
+
+  gap: 40px;
+
+  align-items: center;
+
+  will-change: transform;
+
+}
+
+
+
+/* Headline links */
+
+#profit-times-ticker-track a {
+
+  color: #0d6efd;
+
+  text-decoration: none;
+
+  font-weight: 600;
+
+}
+
+
+
+/* "Latest:" label */
+
+#profit-times-ticker-track .label {
+
+  font-weight: 700;
+
+  color: #333;
+
+  margin-right: 20px;
+
+}
 
 </style>
 
+
+
 <script>
 
-document.addEventListener('DOMContentLoaded', function(){
-
-  const nav = document.querySelector('nav') || document.querySelector('.quarto-nav') || document.querySelector('.navbar');
-
-  const container = document.createElement('div');
-
-  container.id = 'profit-times-rotating-bar-container';
-
-  container.innerHTML = '<div id="profit-times-rotating-bar"><span class="label">Latest:</span><a class="rt-link" href="#" target="_self" rel="noopener"></a></div>';
+document.addEventListener("DOMContentLoaded", function () {
 
 
 
-  if (nav && nav.parentNode) {
+  /* -----------------------------
 
-    nav.parentNode.insertBefore(container, nav.nextSibling);
+     1. Insert ticker at top of body
 
-  } else {
+  ----------------------------- */
 
-    document.body.insertBefore(container, document.body.firstChild);
+  const container = document.getElementById("profit-times-ticker-container");
 
-  }
-
-
-
-  const bar = document.getElementById('profit-times-rotating-bar');
-
-  const link = bar.querySelector('.rt-link');
+  document.body.insertBefore(container, document.body.firstChild);
 
 
 
-  let items = [];
+  /* Create the scrolling track */
 
-  let idx = 0;
+  const track = document.createElement("div");
 
-  let cycleTimer = null;
+  track.id = "profit-times-ticker-track";
 
-
-
-  function show(i){
-
-    if (!items.length) { container.style.display='none'; return; }
-
-    const item = items[i % items.length];
-
-    // remove fade to show instantly
-
-    link.classList.remove('fade');
-
-    // small delay to ensure transition when setting text
-
-    setTimeout(()=>{
-
-      link.textContent = item.title || '';
-
-      link.href = item.href || '#';
-
-    }, 20);
-
-    // schedule fade-out before next change
-
-    clearTimeout(cycleTimer);
-
-    cycleTimer = setTimeout(()=>{ link.classList.add('fade'); }, 2500);
-
-  }
+  container.appendChild(track);
 
 
 
-  function startCycle(){
+  /* Add label */
 
-    if (!items.length) return;
+  const label = document.createElement("span");
 
-    show(0);
+  label.className = "label";
 
-    idx = 0;
+  label.textContent = "Latest:";
 
-    setInterval(()=>{ idx = (idx+1) % items.length; show(idx); }, 3000);
-
-  }
+  track.appendChild(label);
 
 
 
-  // Fetch the Quarto-generated search.json which includes titles and hrefs
+  /* -----------------------------
 
-  fetch('search.json').then(r=>{
+     2. Use absolute path to search.json
 
-    if (!r.ok) throw new Error('no search.json');
+  ----------------------------- */
 
-    return r.json();
+  const searchJsonPath = '/search.json';  // absolute path from site root
 
-  }).then(data=>{
 
-    // Quarto search.json is typically an array of items with `title` and `href`.
 
-    if (Array.isArray(data)){
+  fetch(searchJsonPath)
 
-      items = data.filter(x=>x.title && x.href).map(x=>({title:x.title, href:x.href}));
+    .then(r => {
 
-    } else if (data.items && Array.isArray(data.items)){
+      if (!r.ok) throw new Error("search.json not found");
 
-      items = data.items.map(x=>({title:x.title||x.name, href:x.href||x.url}));
+      return r.json();
 
-    }
+    })
 
-    if (items.length) startCycle(); else container.style.display='none';
+    .then(data => {
 
-  }).catch(()=>{
 
-    // If fetch fails, hide the bar silently
 
-    container.style.display='none';
+      /* Support both Quarto search.json formats */
 
-  });
+      const items = data.items || data;
+
+
+
+      /* Filter real articles only */
+
+      const articles = items.filter(item =>
+
+        item.title &&
+
+        item.href &&
+
+        !item.href.includes("about") &&
+
+        !item.href.includes("index") &&
+
+        !item.href.endsWith("/")
+
+      );
+
+
+
+      if (!articles.length) return;
+
+
+
+      /* Function to append all headlines */
+
+      function appendArticles() {
+
+        articles.forEach(a => {
+
+          const link = document.createElement("a");
+
+          link.href = a.href;
+
+          link.textContent = a.title;
+
+          track.appendChild(link);
+
+        });
+
+      }
+
+
+
+      /* Duplicate content for infinite looping */
+
+      appendArticles();
+
+      appendArticles();
+
+
+
+      /* -----------------------------
+
+         3. After content loads, compute track width
+
+            and generate a matching animation speed.
+
+      ----------------------------- */
+
+      requestAnimationFrame(() => {
+
+        const totalWidth = track.getBoundingClientRect().width;
+
+
+
+        /* Create dynamic keyframes */
+
+        const duration = totalWidth / 60;  // pixels per second
+
+
+
+        const styleEl = document.createElement("style");
+
+        styleEl.textContent = `
+
+          @keyframes profitTimesScroll {
+
+            0% { transform: translateX(0); }
+
+            100% { transform: translateX(-${totalWidth / 2}px); }
+
+          }
+
+          #profit-times-ticker-track {
+
+            animation: profitTimesScroll ${duration}s linear infinite;
+
+          }
+
+        `;
+
+        document.head.appendChild(styleEl);
+
+      });
+
+    })
+
+    .catch(err => {
+
+      console.error("Ticker failed:", err);
+
+      container.style.display = "none";  // don't break the page
+
+    });
 
 });
 
@@ -349,7 +465,7 @@ document.addEventListener('DOMContentLoaded', function(){
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/Soham360\.github\.io\/Profit-Times\/");
+        var filterRegex = new RegExp('/' + window.location.host + '/');
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
