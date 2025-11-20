@@ -70,7 +70,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="styles.css?v=2">
+<link rel="stylesheet" href="./styles.css?v=2">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -90,10 +90,6 @@ ul.task-list li input[type="checkbox"] {
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="./index.html"> 
-<span class="menu-text">Profit Times</span></a>
-  </li>  
   <li class="nav-item">
     <a class="nav-link" href="./articles/standing-rock.html"> 
 <span class="menu-text">Latest Headlines</span></a>
@@ -146,147 +142,519 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="about-the-author" class="level1">
 <h1>About the Author</h1>
-<p>Hi, I’m Soham, a student satirist trying to make the world laugh… and think.</p>
-<p>This site highlights moments where profit seems more important than people, sometimes in ways so absurd they could only be real if they weren’t.</p>
-<p>All articles are meant to entertain and provoke thought, with a touch of humor.</p>
+<p>Filler</p>
+<p><img src="images/SohamHeadshotMain-removebg-preview.png" alt="Soham Kamat" class="about-img"></p>
+<style>
+.about-img {
+  /* float: right;           float image to the right */
+  width: 150px;           /* smaller size */
+  height: auto;
+  margin-left: 20px;      /* space between text and image */
+  margin-bottom: 10px;    /* space below image */
+  border-radius: 8px;     /* rounded corners */
+}
+
+@media (max-width: 600px) {
+  .about-img {
+    float: none;          /* stack image above/below text on mobile */
+    display: block;
+    margin: 0 auto 20px auto;
+    width: 80%;           /* responsive width */
+  }
+}
+</style>
 
 
 </section>
 
 </main> <!-- /main -->
-<div id="profit-times-rotating-bar" aria-live="polite"></div>
+<div id="profit-times-ticker-container"></div>
+
+
 
 <style>
 
-#profit-times-rotating-bar { background:#f8f9fa; border-bottom:1px solid #e6e6e6; padding:8px 16px; font-size:0.95rem; display:flex; align-items:center; gap:12px; }
+/* Bar wrapper */
 
-#profit-times-rotating-bar .label { font-weight:600; color:#333; margin-right:6px; }
+#profit-times-ticker-container {
 
-#profit-times-rotating-bar a.rt-link { color:#0d6efd; text-decoration:none; transition:opacity .4s; opacity:1; }
+  background: #f8f9fa;
 
-#profit-times-rotating-bar a.rt-link.fade { opacity:0; }
+  border-bottom: 1px solid #e6e6e6;
 
-#profit-times-rotating-bar { box-sizing: border-box; }
+  overflow: hidden;
 
-@media (max-width:600px) { #profit-times-rotating-bar { font-size:0.9rem; padding:8px 10px; } }
+  white-space: nowrap;
+
+  width: 100%;
+
+  box-sizing: border-box;
+
+  position: relative;
+
+  padding: 8px 0;
+
+  z-index: 1000;
+
+}
+
+
+
+/* Scrolling content container */
+
+#profit-times-ticker-track {
+
+  display: inline-flex;
+
+  white-space: nowrap;
+
+  gap: 40px;
+
+  align-items: center;
+
+  will-change: transform;
+
+}
+
+
+
+/* Headline links */
+
+#profit-times-ticker-track a {
+
+  color: #0d6efd;
+
+  text-decoration: none;
+
+  font-weight: 600;
+
+}
+
+
+
+/* "Latest:" label */
+
+#profit-times-ticker-track .label {
+
+  font-weight: 700;
+
+  color: #333;
+
+  margin-right: 20px;
+
+}
 
 </style>
 
+
+
 <script>
 
-document.addEventListener('DOMContentLoaded', function(){
+document.addEventListener("DOMContentLoaded", function () {
+
+
+
+  /* -----------------------------
+
+     1. Insert ticker at top of body
+
+  ----------------------------- */
+
+  const container = document.getElementById("profit-times-ticker-container");
+
+  document.body.insertBefore(container, document.body.firstChild);
+
+
+
+  /* Create the scrolling track */
+
+  const track = document.createElement("div");
+
+  track.id = "profit-times-ticker-track";
+
+  container.appendChild(track);
+
+
+
+  /* Add label */
+
+//   const label = document.createElement("span");
+
+//   label.className = "label";
+
+//   label.textContent = "Latest:";
+
+//   track.appendChild(label);
+
+
+
+  /* -----------------------------
+
+     2. Use absolute path to search.json
+
+  ----------------------------- */
+
+  const searchJsonPath = '/search.json';  // absolute path from site root
+
+
+
+  fetch(searchJsonPath)
+
+    .then(r => {
+
+      if (!r.ok) throw new Error("search.json not found");
+
+      return r.json();
+
+    })
+
+    .then(data => {
+
+
+
+      /* Support both Quarto search.json formats */
+
+      const items = data.items || data;
+
+
+
+      /* Filter real articles only */
+
+      const articles = items.filter(item =>
+
+        item.title &&
+
+        item.href &&
+
+        !item.href.includes("about") &&
+
+        !item.href.includes("index") &&
+
+        !item.href.endsWith("/")
+
+      );
+
+
+
+      if (!articles.length) return;
+
+
+
+      /* Function to append all headlines */
+
+      function appendArticles() {
+
+        articles.forEach(a => {
+
+          const link = document.createElement("a");
+
+          link.href = a.href;
+
+          link.textContent = a.title;
+
+          track.appendChild(link);
+
+        });
+
+      }
+
+
+
+      /* Duplicate content for infinite looping */
+
+      appendArticles();
+
+      appendArticles();
+
+
+
+      /* -----------------------------
+
+         3. After content loads, compute track width
+
+            and generate a matching animation speed.
+
+      ----------------------------- */
+
+      requestAnimationFrame(() => {
+
+        const totalWidth = track.getBoundingClientRect().width;
+
+
+
+        /* Create dynamic keyframes */
+
+        const duration = totalWidth / 60;  // pixels per second
+
+
+
+        const styleEl = document.createElement("style");
+
+        styleEl.textContent = `
+
+          @keyframes profitTimesScroll {
+
+            0% { transform: translateX(0); }
+
+            100% { transform: translateX(-${totalWidth / 2}px); }
+
+          }
+
+          #profit-times-ticker-track {
+
+            animation: profitTimesScroll ${duration}s linear infinite;
+
+          }
+
+        `;
+
+        document.head.appendChild(styleEl);
+
+      });
+
+    })
+
+    .catch(err => {
+
+      console.error("Ticker failed:", err);
+
+      container.style.display = "none";  // don't break the page
+
+    });
+
+});
+
+</script>
+
+<div id="navbar-stock-wrapper"></div>
+
+
+
+<style>
+
+/* Ticker wrapper in navbar */
+
+#navbar-stock-wrapper {
+
+  display: flex;
+
+  flex-direction: column;
+
+  overflow: hidden;
+
+  height: 26px; /* adjust to navbar line-height */
+
+  margin-left: 16px;
+
+}
+
+
+
+/* Stock container */
+
+#navbar-stocks {
+
+  display: flex;
+
+  flex-direction: column;
+
+  will-change: transform;
+
+}
+
+
+
+/* Single stock line */
+
+#navbar-stocks .stock {
+
+  display: flex;
+
+  gap: 6px;
+
+  height: 26px;
+
+  align-items: center;
+
+  font-size: 0.9rem;
+
+}
+
+
+
+/* Company symbol bold */
+
+#navbar-stocks .stock .symbol {
+
+  font-weight: bold;
+
+}
+
+
+
+/* Arrow colors */
+
+#navbar-stocks .arrow.up { color: green; }
+
+#navbar-stocks .arrow.down { color: red; }
+
+</style>
+
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  // Select existing navbar
 
   const nav = document.querySelector('nav') || document.querySelector('.quarto-nav') || document.querySelector('.navbar');
 
-  const container = document.createElement('div');
-
-  container.id = 'profit-times-rotating-bar-container';
-
-  container.innerHTML = '<div id="profit-times-rotating-bar"><span class="label">Latest:</span><a class="rt-link" href="#" target="_self" rel="noopener"></a></div>';
+  if (!nav) return;
 
 
 
-  if (nav && nav.parentNode) {
+  // Right-side wrapper for search + ticker
 
-    nav.parentNode.insertBefore(container, nav.nextSibling);
+  let rightWrapper = nav.querySelector('.navbar-right');
 
-  } else {
+  if (!rightWrapper) {
 
-    document.body.insertBefore(container, document.body.firstChild);
+    rightWrapper = document.createElement('div');
 
-  }
+    rightWrapper.className = 'navbar-right';
 
+    rightWrapper.style.display = 'flex';
 
+    rightWrapper.style.alignItems = 'center';
 
-  const bar = document.getElementById('profit-times-rotating-bar');
+    rightWrapper.style.gap = '16px';
 
-  const link = bar.querySelector('.rt-link');
-
-
-
-  let items = [];
-
-  let idx = 0;
-
-  let cycleTimer = null;
-
-
-
-  function show(i){
-
-    if (!items.length) { container.style.display='none'; return; }
-
-    const item = items[i % items.length];
-
-    // remove fade to show instantly
-
-    link.classList.remove('fade');
-
-    // small delay to ensure transition when setting text
-
-    setTimeout(()=>{
-
-      link.textContent = item.title || '';
-
-      link.href = item.href || '#';
-
-    }, 20);
-
-    // schedule fade-out before next change
-
-    clearTimeout(cycleTimer);
-
-    cycleTimer = setTimeout(()=>{ link.classList.add('fade'); }, 2500);
+    nav.appendChild(rightWrapper);
 
   }
 
 
 
-  function startCycle(){
+  // Insert stock wrapper inside right side
 
-    if (!items.length) return;
+  const wrapper = document.createElement('div');
 
-    show(0);
+  wrapper.id = 'navbar-stock-wrapper';
 
-    idx = 0;
+  const stockContainer = document.createElement('div');
 
-    setInterval(()=>{ idx = (idx+1) % items.length; show(idx); }, 3000);
+  stockContainer.id = 'navbar-stocks';
+
+  wrapper.appendChild(stockContainer);
+
+  rightWrapper.appendChild(wrapper);
+
+
+
+  // Sample stocks
+
+  const stockData = [
+
+    {symbol: "AAPL", price: 145.32},
+
+    {symbol: "GOOG", price: 2830.45},
+
+    {symbol: "TSLA", price: 720.12},
+
+    {symbol: "AMZN", price: 3340.50},
+
+    {symbol: "MSFT", price: 299.70}
+
+  ];
+
+
+
+  // Function to create a stock line
+
+  function createStockLine(stock) {
+
+    const el = document.createElement('div');
+
+    el.className = 'stock';
+
+    el.innerHTML = `<span class="symbol">${stock.symbol}</span> <span class="price">${stock.price.toFixed(2)}</span> <span class="arrow">▲</span>`;
+
+    return el;
 
   }
 
 
 
-  // Fetch the Quarto-generated search.json which includes titles and hrefs
+  // Add stocks twice for smooth infinite scroll
 
-  fetch('search.json').then(r=>{
+  stockData.forEach(stock => stockContainer.appendChild(createStockLine(stock)));
 
-    if (!r.ok) throw new Error('no search.json');
+  stockData.forEach(stock => stockContainer.appendChild(createStockLine(stock)));
 
-    return r.json();
 
-  }).then(data=>{
 
-    // Quarto search.json is typically an array of items with `title` and `href`.
+  const stockHeight = 26; // px
 
-    if (Array.isArray(data)){
+  let currentOffset = 0;
 
-      items = data.filter(x=>x.title && x.href).map(x=>({title:x.title, href:x.href}));
 
-    } else if (data.items && Array.isArray(data.items)){
 
-      items = data.items.map(x=>({title:x.title||x.name, href:x.href||x.url}));
+  function scrollStocks() {
+
+    currentOffset += stockHeight;
+
+    if (currentOffset >= stockHeight * stockData.length) {
+
+      // Reset smoothly
+
+      stockContainer.style.transition = 'none';
+
+      stockContainer.style.transform = 'translateY(0)';
+
+      currentOffset = stockHeight;
+
+      // Force reflow for transition
+
+      void stockContainer.offsetWidth;
 
     }
 
-    if (items.length) startCycle(); else container.style.display='none';
+    stockContainer.style.transition = 'transform 0.5s ease';
 
-  }).catch(()=>{
+    stockContainer.style.transform = `translateY(-${currentOffset}px)`;
 
-    // If fetch fails, hide the bar silently
 
-    container.style.display='none';
 
-  });
+    // Update price & arrow for the current visible stock
+
+    const visibleIndex = (currentOffset / stockHeight) % stockData.length;
+
+    const stock = stockData[visibleIndex];
+
+    const el = stockContainer.children[visibleIndex];
+
+    const priceEl = el.querySelector('.price');
+
+    const arrowEl = el.querySelector('.arrow');
+
+    const change = (Math.random() * 3).toFixed(2);
+
+    const up = Math.random() > 0.5;
+
+    stock.price = up ? stock.price + parseFloat(change) : stock.price - parseFloat(change);
+
+    priceEl.textContent = stock.price.toFixed(2);
+
+    arrowEl.textContent = up ? "▲" : "▼";
+
+    arrowEl.className = "arrow " + (up ? "up" : "down");
+
+  }
+
+
+
+  setInterval(scrollStocks, 2000);
 
 });
 
