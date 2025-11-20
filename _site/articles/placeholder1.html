@@ -244,13 +244,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
   /* Add label */
 
-  const label = document.createElement("span");
+//   const label = document.createElement("span");
 
-  label.className = "label";
+//   label.className = "label";
 
-  label.textContent = "Latest:";
+//   label.textContent = "Latest:";
 
-  track.appendChild(label);
+//   track.appendChild(label);
 
 
 
@@ -392,6 +392,240 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </script>
 
+<div id="navbar-stock-wrapper"></div>
+
+
+
+<style>
+
+/* Ticker wrapper in navbar */
+
+#navbar-stock-wrapper {
+
+  display: flex;
+
+  flex-direction: column;
+
+  overflow: hidden;
+
+  height: 26px; /* adjust to navbar line-height */
+
+  margin-left: 16px;
+
+}
+
+
+
+/* Stock container */
+
+#navbar-stocks {
+
+  display: flex;
+
+  flex-direction: column;
+
+  will-change: transform;
+
+}
+
+
+
+/* Single stock line */
+
+#navbar-stocks .stock {
+
+  display: flex;
+
+  gap: 6px;
+
+  height: 26px;
+
+  align-items: center;
+
+  font-size: 0.9rem;
+
+}
+
+
+
+/* Company symbol bold */
+
+#navbar-stocks .stock .symbol {
+
+  font-weight: bold;
+
+}
+
+
+
+/* Arrow colors */
+
+#navbar-stocks .arrow.up { color: green; }
+
+#navbar-stocks .arrow.down { color: red; }
+
+</style>
+
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  // Select existing navbar
+
+  const nav = document.querySelector('nav') || document.querySelector('.quarto-nav') || document.querySelector('.navbar');
+
+  if (!nav) return;
+
+
+
+  // Right-side wrapper for search + ticker
+
+  let rightWrapper = nav.querySelector('.navbar-right');
+
+  if (!rightWrapper) {
+
+    rightWrapper = document.createElement('div');
+
+    rightWrapper.className = 'navbar-right';
+
+    rightWrapper.style.display = 'flex';
+
+    rightWrapper.style.alignItems = 'center';
+
+    rightWrapper.style.gap = '16px';
+
+    nav.appendChild(rightWrapper);
+
+  }
+
+
+
+  // Insert stock wrapper inside right side
+
+  const wrapper = document.createElement('div');
+
+  wrapper.id = 'navbar-stock-wrapper';
+
+  const stockContainer = document.createElement('div');
+
+  stockContainer.id = 'navbar-stocks';
+
+  wrapper.appendChild(stockContainer);
+
+  rightWrapper.appendChild(wrapper);
+
+
+
+  // Sample stocks
+
+  const stockData = [
+
+    {symbol: "AAPL", price: 145.32},
+
+    {symbol: "GOOG", price: 2830.45},
+
+    {symbol: "TSLA", price: 720.12},
+
+    {symbol: "AMZN", price: 3340.50},
+
+    {symbol: "MSFT", price: 299.70}
+
+  ];
+
+
+
+  // Function to create a stock line
+
+  function createStockLine(stock) {
+
+    const el = document.createElement('div');
+
+    el.className = 'stock';
+
+    el.innerHTML = `<span class="symbol">${stock.symbol}</span> <span class="price">${stock.price.toFixed(2)}</span> <span class="arrow">▲</span>`;
+
+    return el;
+
+  }
+
+
+
+  // Add stocks twice for smooth infinite scroll
+
+  stockData.forEach(stock => stockContainer.appendChild(createStockLine(stock)));
+
+  stockData.forEach(stock => stockContainer.appendChild(createStockLine(stock)));
+
+
+
+  const stockHeight = 26; // px
+
+  let currentOffset = 0;
+
+
+
+  function scrollStocks() {
+
+    currentOffset += stockHeight;
+
+    if (currentOffset >= stockHeight * stockData.length) {
+
+      // Reset smoothly
+
+      stockContainer.style.transition = 'none';
+
+      stockContainer.style.transform = 'translateY(0)';
+
+      currentOffset = stockHeight;
+
+      // Force reflow for transition
+
+      void stockContainer.offsetWidth;
+
+    }
+
+    stockContainer.style.transition = 'transform 0.5s ease';
+
+    stockContainer.style.transform = `translateY(-${currentOffset}px)`;
+
+
+
+    // Update price & arrow for the current visible stock
+
+    const visibleIndex = (currentOffset / stockHeight) % stockData.length;
+
+    const stock = stockData[visibleIndex];
+
+    const el = stockContainer.children[visibleIndex];
+
+    const priceEl = el.querySelector('.price');
+
+    const arrowEl = el.querySelector('.arrow');
+
+    const change = (Math.random() * 3).toFixed(2);
+
+    const up = Math.random() > 0.5;
+
+    stock.price = up ? stock.price + parseFloat(change) : stock.price - parseFloat(change);
+
+    priceEl.textContent = stock.price.toFixed(2);
+
+    arrowEl.textContent = up ? "▲" : "▼";
+
+    arrowEl.className = "arrow " + (up ? "up" : "down");
+
+  }
+
+
+
+  setInterval(scrollStocks, 2000);
+
+});
+
+</script>
+
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
@@ -465,7 +699,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/Soham360\.github\.io\/Profit-Times\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
