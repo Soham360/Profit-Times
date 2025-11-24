@@ -268,7 +268,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   ----------------------------- */
 
-  const searchJsonPath = './search.json';  // absolute path from site root
+  const searchJsonPath = window.location.pathname.replace(/\/[^/]*$/, '/search.json');  // absolute path from site root
 
 
 
