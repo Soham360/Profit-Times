@@ -134,27 +134,10 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Filler</p>
-<p><img src="images/SohamHeadshotMain-removebg-preview.png" alt="Soham Kamat" class="about-img"></p>
-<style>
-.about-img {
-  /* float: right;           float image to the right */
-  width: 150px;           /* smaller size */
-  height: auto;
-  margin-left: 20px;      /* space between text and image */
-  margin-bottom: 10px;    /* space below image */
-  border-radius: 8px;     /* rounded corners */
-}
-
-@media (max-width: 600px) {
-  .about-img {
-    float: none;          /* stack image above/below text on mobile */
-    display: block;
-    margin: 0 auto 20px auto;
-    width: 80%;           /* responsive width */
-  }
-}
-</style>
+<p><img src="images/SohamHeadshotMain-removebg-preview.png" class="img-fluid" style="float:right; width:35%; margin-left:15px;"></p>
+<p>Soham Kamat writes for <strong>Profit Times</strong>, where he bravely reports on the things that really matter: money, corporate growth, and occasionally the crushing moral dilemmas of people who care about ethics.</p>
+<p>He enjoys pointing out the absurdity of the world when profit is the only measure of success, and has been known to laugh in the face of feelings, human decency, and common sense, all in the name of journalism.</p>
+<p>When not crafting perfectly reasonable articles about pipelines, luxury hotels, or newly discovered minerals, he can usually be found wondering why anyone would put ethics before earnings.</p>
 
 
 
@@ -724,7 +707,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/Soham360\.github\.io\/Profit-Times\/");
+        var filterRegex = new RegExp('/' + window.location.host + '/');
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
