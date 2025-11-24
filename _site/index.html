@@ -148,19 +148,19 @@ Your go-to source for breaking news where money rules the world.
 <section id="other-headlines" class="level2">
 <h2 class="anchored" data-anchor-id="other-headlines">Other Headlines</h2>
 <div class="article-box">
-<p><a href="./articles/placeholder1.html">Mayor Turns City Hall into Luxury Hotel</a><br>
+<p><a href="articles/placeholder1.qmd">Mayor Turns City Hall into Luxury Hotel</a><br>
 <em>Because renting out government offices is peak efficiency.</em></p>
 </div>
 <div class="article-box">
-<p><a href="./articles/placeholder2.html">Local School Sells Naming Rights to Cafeteria</a><br>
+<p><a href="articles/placeholder2.qmd">Local School Sells Naming Rights to Cafeteria</a><br>
 <em>Now every lunch comes with a brand sponsorship.</em></p>
 </div>
 <div class="article-box">
-<p><a href="./articles/placeholder3.html">Corporation Discovers New Mineral: Pure Capitalism</a><br>
+<p><a href="articles/placeholder3.qmd">Corporation Discovers New Mineral: Pure Capitalism</a><br>
 <em>Turns out profits can literally be mined.</em></p>
 </div>
 <div class="article-box">
-<p><a href="./articles/placeholder4.html">Man Starts Fundraising Campaign to Fund Fundraising Campaigns</a><br>
+<p><a href="articles/placeholder4.qmd">Man Starts Fundraising Campaign to Fund Fundraising Campaigns</a><br>
 <em>Meta-profit inception at its finest.</em></p>
 </div>
 <hr>
@@ -735,7 +735,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/Soham360\.github\.io\/Profit-Times\/");
+        var filterRegex = new RegExp('/' + window.location.host + '/');
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
