@@ -27,6 +27,7 @@ Some economists suggest that the protests might even inspire innovation in the p
 As the standoff continues, corporate leaders remain hopeful that eventually, the protests will realize the futility of prioritizing morality over financial gains. Until then, shareholders are urged to stay patient and remember: in the battle between ethics and earnings, earnings always win.
 
 ### While You’re Here, Check Out Some More Stories
-- [Mayor Converts City Hall Into Luxury Hotel After Realizing It Is Prime Real Estate](placeholder1.qmd)  
-- [Corporation Announces Discovery of a New Mineral Called Pure Capitalism](placeholder3.qmd)  
-- [Man Launches Fundraiser To Raise Money For Future Fundraisers](placeholder4.qmd)  
+- [Corporation Announces Discovery of a New Mineral Called Pure Capitalism](Corporation_Discovers_New_Mineral_Pure_Capitalism.qmd)
+- [Local School Sells Naming Rights to Cafeteria](Local_School_Sells_Naming_Rights_to_Cafeteria.qmd)
+- [Man Launches Fundraiser To Raise Money For Future Fundraisers](Man_Starts_Fundraising_Campaign_to_Fund_Fundraising_Campaigns.qmd)
+- [Mayor Converts City Hall Into Luxury Hotel After Realizing It Is Prime Real Estate](Mayor_Turns_City_Hall_into_Luxury_Hotel.qmd)
