@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
   /* -----------------------------
      2. Use absolute path to search.json
   ----------------------------- */
-  const searchJsonPath = './search.json';  // absolute path from site root
+  const searchJsonPath = window.location.pathname.replace(/\/[^/]*$/, '/search.json');  // absolute path from site root
 
   fetch(searchJsonPath)
     .then(r => {
