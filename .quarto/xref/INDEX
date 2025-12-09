@@ -40,5 +40,11 @@
   },
   "games/clickthebutton.qmd": {
     "clickthebutton.html": "fa3f9873"
+  },
+  "articles/standing-rock-profits.qmd": {
+    "standing-rock-profits.html": "530d96de"
+  },
+  "articles/standing-rock-violence.qmd": {
+    "standing-rock-violence.html": "6d303a53"
   }
 }

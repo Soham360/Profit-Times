@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Click the Button Paywall – Profit Times</title>
+<title>Click the Button – Profit Times</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -134,7 +134,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Click the Button Paywall</h1>
+<h1 class="title">Click the Button</h1>
 </div>
 
 
@@ -152,9 +152,6 @@ ul.task-list li input[type="checkbox"] {
 
 
 <div id="clickGameContainer" style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:80vh; gap:20px;">
-<h2 class="anchored">
-Click the Button to Win
-</h2>
 <button id="clickButton" style="font-size:48px; padding:30px 60px;">Click Me!</button>
 <p style="font-size:32px;">
 Clicks: <span id="clickCount">0</span>/10
@@ -752,7 +749,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/Soham360\.github\.io\/Profit-Times\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

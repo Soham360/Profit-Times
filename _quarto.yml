@@ -6,7 +6,11 @@ website:
   navbar:
     left:
       - text: Latest Headlines
-        href: articles/standing-rock.qmd
+        menu:
+        - text: "Standing Rock: Protests Threaten Nation’s Bottom Line"
+          href: articles/standing-rock-profits.qmd
+        - text: "Standing Rock Violence Disrupts Profit Flow "
+          href: articles/standing-rock-violence.qmd
       - text: About
         href: about.qmd
       - text: "Games"
