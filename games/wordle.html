@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>corporation_discovers_new_mineral_pure_capitalism – Profit Times</title>
+<title>Wordle – Profit Times</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -73,7 +73,7 @@ ul.task-list li input[type="checkbox"] {
 <link rel="stylesheet" href="../styles.css?v=2">
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="nav-fixed fullcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -128,27 +128,114 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#corporation-discovers-new-mineral-pure-capitalism" id="toc-corporation-discovers-new-mineral-pure-capitalism" class="nav-link active" data-scroll-target="#corporation-discovers-new-mineral-pure-capitalism">Corporation Discovers New Mineral: Pure Capitalism</a></li>
-  </ul>
-</nav>
-    </div>
+    
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Wordle</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
 
-<section id="corporation-discovers-new-mineral-pure-capitalism" class="level1">
-<h1>Corporation Discovers New Mineral: Pure Capitalism</h1>
-<p>Filler</p>
+    
+  
+    
+  </div>
+  
 
 
-</section>
+</header>
+
+
+<div id="gameContainer" style="display:flex; flex-direction:column; align-items:center; gap:20px; margin-top:50px;">
+<div id="board">
+
+</div>
+<p><input type="text" id="guessInput" maxlength="5" placeholder="Type your guess here" style="font-size:32px; text-align:center; width:350px; padding:10px; height:75px;"> <button onclick="submitGuess()" style="font-size:24px; padding:20px; height:75px;">Submit Guess</button></p>
+</div>
+<script>
+// Configuration
+const targetWord = "APPLE";
+let currentRow = 0;
+let maxGuesses = 6;
+let secondGuessPaywall = false;
+
+// Colors
+const colors = { correct: "#6aaa64", present: "#c9b458", absent: "#787c7e" };
+
+// Create board
+const board = document.getElementById("board");
+board.style.display = "flex";
+board.style.flexDirection = "column";
+board.style.gap = "10px";
+
+for (let r = 0; r < maxGuesses; r++) {
+    const row = document.createElement("div");
+    row.style.display = "flex";
+    row.style.gap = "10px";
+    row.style.justifyContent = "center";
+    
+    for (let c = 0; c < 5; c++) {
+        const cell = document.createElement("div");
+        Object.assign(cell.style, {
+            width: "60px",
+            height: "60px",
+            border: "3px solid #999",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: "32px",
+            fontWeight: "bold",
+            textTransform: "uppercase"
+        });
+        row.appendChild(cell);
+    }
+    board.appendChild(row);
+}
+
+// Submit guess
+function submitGuess() {
+    const input = document.getElementById("guessInput");
+    const guess = input.value.toUpperCase();
+    if (guess.length !== 5) {
+        alert("Please enter a 5-letter word.");
+        return;
+    }
+    
+    const rowDiv = board.children[currentRow];
+    for (let i = 0; i < 5; i++) {
+        const letter = guess[i];
+        const cell = rowDiv.children[i];
+        
+        if (letter === targetWord[i]) cell.style.backgroundColor = colors.correct;
+        else if (targetWord.includes(letter)) cell.style.backgroundColor = colors.present;
+        else cell.style.backgroundColor = colors.absent;
+
+        cell.style.color = "#fff";
+        cell.textContent = letter;
+    }
+    
+    currentRow++;
+    input.value = "";
+    
+    if (currentRow >= maxGuesses) input.disabled = true;
+}
+
+// Paywall trigger while typing second guess
+document.getElementById("guessInput").addEventListener("input", function(e) {
+    if (currentRow === 1 && !secondGuessPaywall && e.target.value.length === 1) {
+        secondGuessPaywall = true;
+        alert("Pay $9.99 to unlock more guesses!");
+        e.target.disabled = true;
+    }
+});
+</script>
+
+
 
 </main> <!-- /main -->
 <div id="profit-times-ticker-container"></div>

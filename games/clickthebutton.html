@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>corporation_discovers_new_mineral_pure_capitalism – Profit Times</title>
+<title>Click the Button – Profit Times</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -73,7 +73,7 @@ ul.task-list li input[type="checkbox"] {
 <link rel="stylesheet" href="../styles.css?v=2">
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="nav-fixed fullcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -128,27 +128,60 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#corporation-discovers-new-mineral-pure-capitalism" id="toc-corporation-discovers-new-mineral-pure-capitalism" class="nav-link active" data-scroll-target="#corporation-discovers-new-mineral-pure-capitalism">Corporation Discovers New Mineral: Pure Capitalism</a></li>
-  </ul>
-</nav>
-    </div>
+    
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Click the Button</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
 
-<section id="corporation-discovers-new-mineral-pure-capitalism" class="level1">
-<h1>Corporation Discovers New Mineral: Pure Capitalism</h1>
-<p>Filler</p>
+    
+  
+    
+  </div>
+  
 
 
-</section>
+</header>
+
+
+<div id="clickGameContainer" style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:80vh; gap:20px;">
+<button id="clickButton" style="font-size:48px; padding:30px 60px;">Click Me!</button>
+<p style="font-size:32px;">
+Clicks: <span id="clickCount">0</span>/10
+</p>
+</div>
+<script>
+let clicks = 0;
+let paywall = false;
+const countDisplay = document.getElementById("clickCount");
+const button = document.getElementById("clickButton");
+
+button.addEventListener("click", function() {
+    if(paywall) return;
+    clicks++;
+    countDisplay.textContent = clicks;
+
+    if(clicks === 5) {
+        paywall = true;
+        alert("Pay $4.99 to continue clicking!");
+        button.disabled = true;
+    }
+
+    if(clicks >= 10) {
+        alert("You win!");
+        button.disabled = true;
+    }
+});
+</script>
+
+
 
 </main> <!-- /main -->
 <div id="profit-times-ticker-container"></div>

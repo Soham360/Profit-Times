@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>corporation_discovers_new_mineral_pure_capitalism – Profit Times</title>
+<title>Tic Tac Toe – Profit Times</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -73,7 +73,7 @@ ul.task-list li input[type="checkbox"] {
 <link rel="stylesheet" href="../styles.css?v=2">
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="nav-fixed fullcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -128,27 +128,124 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#corporation-discovers-new-mineral-pure-capitalism" id="toc-corporation-discovers-new-mineral-pure-capitalism" class="nav-link active" data-scroll-target="#corporation-discovers-new-mineral-pure-capitalism">Corporation Discovers New Mineral: Pure Capitalism</a></li>
-  </ul>
-</nav>
-    </div>
+    
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Tic Tac Toe</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
 
-<section id="corporation-discovers-new-mineral-pure-capitalism" class="level1">
-<h1>Corporation Discovers New Mineral: Pure Capitalism</h1>
-<p>Filler</p>
+    
+  
+    
+  </div>
+  
 
 
-</section>
+</header>
+
+
+<div id="gameContainer" style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:80vh; gap:20px;">
+<div id="ticTacToeBoard" style="display:grid; grid-template-columns:150px 150px 150px; grid-gap:10px;">
+
+</div>
+<p id="ticTacToeMessage" style="font-size:24px; font-weight:bold;">
+</p>
+<p><button id="restartButton" style="font-size:24px; padding:10px 20px;">Restart Game</button></p>
+</div>
+<script>
+let board = ["", "", "", "", "", "", "", "", ""];
+let userTurn = true;
+let paywallTriggered = false;
+const message = document.getElementById("ticTacToeMessage");
+
+const container = document.getElementById("ticTacToeBoard");
+const restartButton = document.getElementById("restartButton");
+
+// Function to create cells
+function createCells() {
+    container.innerHTML = ""; // clear existing cells
+    for (let i = 0; i < 9; i++) {
+        const cell = document.createElement("div");
+        cell.style.width = "150px";
+        cell.style.height = "150px";
+        cell.style.border = "3px solid #333";
+        cell.style.fontSize = "72px";
+        cell.style.display = "flex";
+        cell.style.alignItems = "center";
+        cell.style.justifyContent = "center";
+        cell.style.cursor = "pointer";
+        cell.style.userSelect = "none";
+        cell.dataset.index = i;
+        cell.addEventListener("click", userMove);
+        container.appendChild(cell);
+    }
+}
+
+// Initialize cells
+createCells();
+
+// User move function
+function userMove(e) {
+    if (!userTurn || paywallTriggered) return;
+    const i = e.target.dataset.index;
+    if (board[i] !== "") return;
+
+    board[i] = "X";
+
+    if (checkWin("X")) {
+        board[i] = ""; // undo winning move
+        paywallTriggered = true;
+        alert("Pay $19.99 if you want to win!");
+        message.textContent = "Pay to finish your win!";
+        return;
+    }
+
+    e.target.textContent = "X";
+    userTurn = false;
+
+    // AI move
+    setTimeout(aiMove, 300);
+}
+
+// Simple AI move
+function aiMove() {
+    let empty = [];
+    board.forEach((val, idx) => { if(val==="") empty.push(idx); });
+    if(empty.length === 0) return;
+    const move = empty[Math.floor(Math.random() * empty.length)];
+    board[move] = "O";
+    container.children[move].textContent = "O";
+    userTurn = true;
+}
+
+// Check for win
+function checkWin(player) {
+    const wins = [
+        [0,1,2],[3,4,5],[6,7,8],
+        [0,3,6],[1,4,7],[2,5,8],
+        [0,4,8],[2,4,6]
+    ];
+    return wins.some(combo => combo.every(i => board[i] === player));
+}
+
+// Restart game
+restartButton.addEventListener("click", function() {
+    board = ["", "", "", "", "", "", "", "", ""];
+    userTurn = true;
+    paywallTriggered = false;
+    message.textContent = "";
+    createCells();
+});
+</script>
+
+
 
 </main> <!-- /main -->
 <div id="profit-times-ticker-container"></div>
