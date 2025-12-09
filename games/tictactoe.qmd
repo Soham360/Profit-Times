@@ -1,0 +1,100 @@
+---
+title: "Tic Tac Toe"
+format: 
+  html:
+    toc: false
+    navigation: false
+---
+
+<div id="gameContainer" style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:80vh; gap:20px;">
+  <div id="ticTacToeBoard" style="display:grid; grid-template-columns:150px 150px 150px; grid-gap:10px;">
+  </div>
+  <p id="ticTacToeMessage" style="font-size:24px; font-weight:bold;"></p>
+  <button id="restartButton" style="font-size:24px; padding:10px 20px;">Restart Game</button>
+</div>
+
+<script>
+let board = ["", "", "", "", "", "", "", "", ""];
+let userTurn = true;
+let paywallTriggered = false;
+const message = document.getElementById("ticTacToeMessage");
+
+const container = document.getElementById("ticTacToeBoard");
+const restartButton = document.getElementById("restartButton");
+
+// Function to create cells
+function createCells() {
+    container.innerHTML = ""; // clear existing cells
+    for (let i = 0; i < 9; i++) {
+        const cell = document.createElement("div");
+        cell.style.width = "150px";
+        cell.style.height = "150px";
+        cell.style.border = "3px solid #333";
+        cell.style.fontSize = "72px";
+        cell.style.display = "flex";
+        cell.style.alignItems = "center";
+        cell.style.justifyContent = "center";
+        cell.style.cursor = "pointer";
+        cell.style.userSelect = "none";
+        cell.dataset.index = i;
+        cell.addEventListener("click", userMove);
+        container.appendChild(cell);
+    }
+}
+
+// Initialize cells
+createCells();
+
+// User move function
+function userMove(e) {
+    if (!userTurn || paywallTriggered) return;
+    const i = e.target.dataset.index;
+    if (board[i] !== "") return;
+
+    board[i] = "X";
+
+    if (checkWin("X")) {
+        board[i] = ""; // undo winning move
+        paywallTriggered = true;
+        alert("Pay $19.99 if you want to win!");
+        message.textContent = "Pay to finish your win!";
+        return;
+    }
+
+    e.target.textContent = "X";
+    userTurn = false;
+
+    // AI move
+    setTimeout(aiMove, 300);
+}
+
+// Simple AI move
+function aiMove() {
+    let empty = [];
+    board.forEach((val, idx) => { if(val==="") empty.push(idx); });
+    if(empty.length === 0) return;
+    const move = empty[Math.floor(Math.random() * empty.length)];
+    board[move] = "O";
+    container.children[move].textContent = "O";
+    userTurn = true;
+}
+
+// Check for win
+function checkWin(player) {
+    const wins = [
+        [0,1,2],[3,4,5],[6,7,8],
+        [0,3,6],[1,4,7],[2,5,8],
+        [0,4,8],[2,4,6]
+    ];
+    return wins.some(combo => combo.every(i => board[i] === player));
+}
+
+// Restart game
+restartButton.addEventListener("click", function() {
+    board = ["", "", "", "", "", "", "", "", ""];
+    userTurn = true;
+    paywallTriggered = false;
+    message.textContent = "";
+    createCells();
+});
+</script>

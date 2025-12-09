@@ -31,5 +31,14 @@
   },
   "articles/Mayor_Turns_City_Hall_into_Luxury_Hotel.qmd": {
     "Mayor_Turns_City_Hall_into_Luxury_Hotel.html": "4de9b80e"
+  },
+  "games/wordle.qmd": {
+    "wordle.html": "f2b28088"
+  },
+  "games/tictactoe.qmd": {
+    "tictactoe.html": "ea78aacd"
+  },
+  "games/clickthebutton.qmd": {
+    "clickthebutton.html": "fa3f9873"
   }
 }

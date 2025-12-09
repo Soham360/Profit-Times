@@ -9,6 +9,14 @@ website:
         href: articles/standing-rock.qmd
       - text: About
         href: about.qmd
+      - text: "Games"
+        menu:
+        - text: "Wordle"
+          href: games/wordle.qmd
+        - text: "Tic Tac Toe"
+          href: games/tictactoe.qmd
+        - text: "Click the Button" 
+          href: games/clickthebutton.qmd
 
 format:
   html:

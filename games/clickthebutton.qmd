@@ -1,0 +1,36 @@
+---
+title: "Click the Button"
+format: 
+  html:
+    toc: false
+    navigation: false
+---
+
+<div id="clickGameContainer" style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:80vh; gap:20px;">
+  <button id="clickButton" style="font-size:48px; padding:30px 60px;">Click Me!</button>
+  <p style="font-size:32px;">Clicks: <span id="clickCount">0</span>/10</p>
+</div>
+
+<script>
+let clicks = 0;
+let paywall = false;
+const countDisplay = document.getElementById("clickCount");
+const button = document.getElementById("clickButton");
+
+button.addEventListener("click", function() {
+    if(paywall) return;
+    clicks++;
+    countDisplay.textContent = clicks;
+
+    if(clicks === 5) {
+        paywall = true;
+        alert("Pay $4.99 to continue clicking!");
+        button.disabled = true;
+    }
+
+    if(clicks >= 10) {
+        alert("You win!");
+        button.disabled = true;
+    }
+});
+</script>
